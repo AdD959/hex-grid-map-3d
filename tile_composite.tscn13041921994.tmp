@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bujhy2a5lxfhf"]
+
+[ext_resource type="Script" uid="uid://bx21rh4vohs75" path="res://tile_composite.gd" id="1_oon5o"]
+
+[node name="tile_composite" type="Node3D"]
+script = ExtResource("1_oon5o")

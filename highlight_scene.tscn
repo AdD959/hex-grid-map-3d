@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://copanqtyh5yy"]
+
+[ext_resource type="Script" uid="uid://s10k6t5kf5lr" path="res://highlight_scene.gd" id="1_6tq0x"]
+[ext_resource type="ArrayMesh" uid="uid://b3lfwpptrxvxf" path="res://tile-highlight-hollowed.vox" id="1_djjlo"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_6tq0x"]
+points = PackedVector3Array(8.4, 0, 0, 3.6, 0, 7.4, -3.6, 0, 7.4, -8.4, 0, 0, -3.6, 0, -7.4, 3.6, 0, -7.4)
+
+[node name="Highlight" type="StaticBody3D"]
+script = ExtResource("1_6tq0x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_6tq0x")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_djjlo")
+skeleton = NodePath("")

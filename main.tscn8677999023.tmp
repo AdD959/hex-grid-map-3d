@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dq1tla52rxvin"]
+
+[ext_resource type="Script" uid="uid://cewwtb5pl02qe" path="res://main.gd" id="1_mw5gw"]
+[ext_resource type="Script" uid="uid://qkdawijxae1b" path="res://camera_rig.gd" id="2_sti82"]
+[ext_resource type="Script" uid="uid://dys47p5iqsmh1" path="res://map_highlights.gd" id="4_1bvp3"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_mw5gw")
+
+[node name="MapHighlights" type="Node3D" parent="."]
+script = ExtResource("4_1bvp3")
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("2_sti82")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 100, 100, 100)
+projection = 1
+size = 18.571
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 4.62824, 19.2664, 20.2753)
+shadow_enabled = true
+shadow_blur = 0.0

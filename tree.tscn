@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhbxlrvpiifyw"]
+
+[ext_resource type="ArrayMesh" uid="uid://q172u5k8gii" path="res://tree-forest-larger-2.vox" id="1_brfkd"]
+
+[node name="tree" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_brfkd")
