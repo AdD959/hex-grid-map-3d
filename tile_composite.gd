@@ -1,7 +1,7 @@
 extends Node3D
 
-const TILE_WIDTH := 2.4   # flat-to-flat (X)
-const TILE_HEIGHT := 3.0  # point-to-point (Z)
+const TILE_WIDTH := 4.0   # flat-to-flat (X)
+const TILE_HEIGHT := 4.462  # point-to-point (Z)
 const HEX_TILE = preload("res://tile.tscn")
 var tile_position : Vector2i
 const TILE_DIRT_LARGER = preload("res://tile-dirt-larger.vox")
@@ -10,9 +10,12 @@ const TREE = preload("res://tree.tscn")
 @export var radius := 3  # Hex radius in tiles (center to any edge)
 var base_types : Array
 const TILE_TYPES:= ["forest", "grass"]
+const HUMAN_ON_TILE_LARGE = preload("res://human.tscn")
+const HEXAGON = preload("res://hexagon.glb")
+const HEXAGON_RED = preload("res://hexagon-red.glb")
 
 func _ready() -> void:
-	base_types = [TILE_DIRT_LARGER, TILE_FOREST_LARGER]
+	base_types = [HEXAGON]
 	generate_hexagon()
 
 func generate_hexagon():
@@ -31,7 +34,9 @@ func generate_hexagon():
 			var z = TILE_HEIGHT * (r * 0.666)  # vertical spacing for pointy tops
 			if type == "forest":
 				var has_tree = randf_range(1, 100)
-				if has_tree < 80:
-					tile.add_child(TREE.instantiate())
+				tile.add_child(TREE.instantiate())
+				#if has_tree < 80:
+				#else:
+					#tile.add_child(HUMAN_ON_TILE_LARGE.instantiate())
 			tile.position = Vector3(x, 0, z)
 			

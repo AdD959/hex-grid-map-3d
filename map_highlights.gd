@@ -6,9 +6,11 @@ const HIGHLIGHT_SCENE = preload("res://highlight_scene.tscn")
 
 var highlight_tiles: Array = []
 @onready var camera: Camera3D = $"../CameraRig/Camera3D"
+@onready var camera_3d_2: Camera3D = $"../CameraRig/Camera3D2"
 
 func _ready() -> void:
-	_generate_map()
+	#_generate_map()
+	pass
 
 func _generate_map():
 	for y in GRID_HEIGHT:
@@ -29,12 +31,12 @@ func _generate_map():
 var last_hovered_tile: Node3D = null
 
 func _process(delta: float) -> void:
-	if camera == null:
+	if camera_3d_2 == null:
 		return
 	
 	var mouse_pos = get_viewport().get_mouse_position()
-	var ray_origin = camera.project_ray_origin(mouse_pos)
-	var ray_direction = camera.project_ray_normal(mouse_pos)
+	var ray_origin = camera_3d_2.project_ray_origin(mouse_pos)
+	var ray_direction = camera_3d_2.project_ray_normal(mouse_pos)
 	var space_state = get_world_3d().direct_space_state
 
 	var query = PhysicsRayQueryParameters3D.new()

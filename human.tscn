@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgkr2q26tyjfb"]
+
+[ext_resource type="ArrayMesh" uid="uid://2wdrek1f7ose" path="res://human-on-tile-large.vox" id="1_11jcu"]
+
+[node name="human" type="Node3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_11jcu")
