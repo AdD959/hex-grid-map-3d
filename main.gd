@@ -1,7 +1,7 @@
 extends Node3D
 
-const GRID_WIDTH:= 15
-const GRID_HEIGHT:= 15
+const GRID_WIDTH:= 5
+const GRID_HEIGHT:= 5
 var current_tile_position_x = 0
 var current_tile_position_z = 0
 var row_position = 0
@@ -15,8 +15,8 @@ func _ready() -> void:
 	
 func _generate_map():
 	var tile_width = 20   # Distance between centers horizontally (flat-top hex)
-	var tile_height = 21.2     # Distance between centers vertically (row spacing)
-	var z_offset = 12     # Extra vertical offset for odd X columns (staggered effect)
+	var tile_height = 23.5     # Distance between centers vertically (row spacing)
+	var z_offset = 13.5     # Extra vertical offset for odd X columns (staggered effect)
 	var row_x_indent = -2.0     # Cumulative indent per row on the X axis
 
 	for x in GRID_WIDTH:

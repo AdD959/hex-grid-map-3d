@@ -1,11 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnhtwpg3s2tnp"]
+[gd_scene load_steps=2 format=3 uid="uid://cnhtwpg3s2tnp"]
 
 [ext_resource type="Script" uid="uid://bn45yn6tbfyw4" path="res://tile.gd" id="1_vx4y2"]
-[ext_resource type="PackedScene" uid="uid://dqv1ymvivvs56" path="res://hexagon.glb" id="2_vx4y2"]
 
 [node name="tile" type="Node3D"]
 script = ExtResource("1_vx4y2")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-
-[node name="hexagon" parent="." instance=ExtResource("2_vx4y2")]
