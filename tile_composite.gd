@@ -34,9 +34,11 @@ func generate_hexagon():
 			var z = TILE_HEIGHT * (r * 0.666)  # vertical spacing for pointy tops
 			if type == "forest":
 				var has_tree = randf_range(1, 100)
-				tile.add_child(TREE.instantiate())
-				#if has_tree < 80:
-				#else:
-					#tile.add_child(HUMAN_ON_TILE_LARGE.instantiate())
+				if has_tree < 80:
+					tile.add_child(TREE.instantiate())
+			else:
+				var has_tree = randf_range(1, 100)
+				if has_tree < 10:
+					tile.add_child(TREE.instantiate())
 			tile.position = Vector3(x, 0, z)
 			
