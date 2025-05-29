@@ -6,9 +6,25 @@ var current_tile_position_z = 0
 var row_position = 0
 var row_step = 0
 const TILE_COMPOSITE = preload("res://tile_composite.tscn")
+const UNIT_CYCLINDER = preload("res://unit_cyclinder.glb")
 
 func _ready() -> void:
 	_generate_map()
+	_add_unit()
+	
+func _add_unit():
+	var unit = UNIT_CYCLINDER.instantiate()
+	unit.name = "unit"
+	
+	var outer_tile = Globals.tile_data_map[Vector2i(1, 1)]
+	var inner_tile = outer_tile.inner_tiles_data_map[Vector2i(1, 1)]
+	
+	# Combine outer tile's world position with inner tile's local offset
+	unit.position = outer_tile.position 
+	#+ inner_tile.position
+
+	self.add_child(unit)
+	Globals.selected_unit = unit
 	
 func _generate_map():
 	var tile_width = 28   # Distance between centers horizontally (flat-top hex)
@@ -37,7 +53,8 @@ func _generate_map():
 				z_pos + z_shift_even if x % 2 == 0 else z_pos + z_shift_odd
 			)
 			
-			tile_new.tile_position = Vector2i(x, z)
+			var tile_pos = Vector2i(x, z)
+			Globals.tile_data_map.set(tile_pos, tile_new)
 			tile_new.name = "Hex: { %s, %s }" % [x, z]
 			add_child(tile_new)
 		if is_even_row:
