@@ -31,12 +31,12 @@ func _generate_map():
 var last_hovered_tile: Node3D = null
 
 func _process(delta: float) -> void:
-	if camera_3d_2 == null:
+	if camera == null:
 		return
 	
 	var mouse_pos = get_viewport().get_mouse_position()
-	var ray_origin = camera_3d_2.project_ray_origin(mouse_pos)
-	var ray_direction = camera_3d_2.project_ray_normal(mouse_pos)
+	var ray_origin = camera.project_ray_origin(mouse_pos)
+	var ray_direction = camera.project_ray_normal(mouse_pos)
 	var space_state = get_world_3d().direct_space_state
 
 	var query = PhysicsRayQueryParameters3D.new()

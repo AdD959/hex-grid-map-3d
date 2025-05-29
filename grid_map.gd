@@ -4,6 +4,7 @@ const TILE_WIDTH := 16.8   # Total flat-to-flat width
 const TILE_HEIGHT := 15.75 # Total point-to-point height
 const HIGHLIGHT_SCENE = preload("res://highlight_scene.tscn")
 @onready var camera: Camera3D = $"../CameraRig/Camera3D"
+@onready var camera_3d_2: Camera3D = $CameraRig/Camera3D2
 
 var mesh_instance: MeshInstance3D
 var tile: Node3D
@@ -33,8 +34,8 @@ func _input(event):
 		var tile_clicked = handle_click(event.position)
 
 func handle_click(screen_pos: Vector2) -> Vector3:
-	var ray_origin = camera.project_ray_origin(screen_pos)
-	var ray_direction = camera.project_ray_normal(screen_pos)
+	var ray_origin = camera_3d_2.project_ray_origin(screen_pos)
+	var ray_direction = camera_3d_2.project_ray_normal(screen_pos)
 	var ray_end = ray_origin + ray_direction * 1000.0
 	var ray_params = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	var ray_result = get_world_3d().direct_space_state.intersect_ray(ray_params)

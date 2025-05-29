@@ -36,4 +36,4 @@ func _unhandled_input(event):
 		translate(movement)
 		
 func _zoom_camera(amount: float):
-	camera.size += amount
+	camera_3d_2.size += amount

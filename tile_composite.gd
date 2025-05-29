@@ -16,6 +16,7 @@ const HEXAGON_RED = preload("res://hexagon-red.glb")
 const HEXAGON_GRASS = preload("res://hexagon-grass.glb")
 const HEXAGON_SAND = preload("res://hexagon-sand.glb")
 const HEXAGON_GRASS_DARK = preload("res://hexagon-grass-dark.glb")
+
 func _ready() -> void:
 	base_types = [HEXAGON_GRASS,HEXAGON_GRASS_DARK]
 	generate_hexagon()
@@ -34,19 +35,20 @@ func generate_hexagon():
 			# Convert axial coordinates (q, r) to world coordinates
 			var x = TILE_WIDTH * (q + r / 2.0)
 			var z = TILE_HEIGHT * (r * 0.75)  # vertical spacing for pointy tops
-			if type == "forest":
-				var has_tree = randf_range(1, 100)
-				if has_tree < 80:
-					var tree_instance = TREE.instantiate()
-					tree_instance.rotation.y = deg_to_rad(randf_range(0, 180))
-					tile.add_child(tree_instance)
-			else:
-				var has_tree = randf_range(1, 100)
-				if has_tree < 10:
-					var tree_instance = TREE.instantiate()
-					tree_instance.rotation.y = deg_to_rad(randf_range(0, 180))
-					tile.add_child(tree_instance)
+			#if type == "forest":
+				#var has_tree = randf_range(1, 100)
+				#if has_tree < 80:
+					#var tree_instance = TREE.instantiate()
+					#tree_instance.rotation.y = deg_to_rad(randf_range(0, 180))
+					#tile.add_child(tree_instance)
+			#else:
+				#var has_tree = randf_range(1, 100)
+				#if has_tree < 10:
+					#var tree_instance = TREE.instantiate()
+					#tree_instance.rotation.y = deg_to_rad(randf_range(0, 180))
+					#tile.add_child(tree_instance)
 
 			tile.position = Vector3(x, 0, z)
+			tile.name = "Inner-tile: { %s, %s }" % [x, z]
 
 			

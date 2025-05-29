@@ -10,14 +10,14 @@ script = ExtResource("1_mw5gw")
 script = ExtResource("2_sti82")
 
 [node name="Camera3D" type="Camera3D" parent="CameraRig"]
-transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573576, -0.707107, -0.40558, 0.579228, 100, 100, 100)
+transform = Transform3D(0.707107, -0.40558, 0.579228, 0, 0.819152, 0.573577, -0.707107, -0.40558, 0.579228, 100, 100, 100)
 projection = 1
-current = true
 size = 18.571
 
 [node name="Camera3D2" type="Camera3D" parent="CameraRig"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 112.481, 0)
 projection = 1
+current = true
 size = 0.885
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
