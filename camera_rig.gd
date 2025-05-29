@@ -4,12 +4,9 @@ extends Node3D
 @export var zoom_sensitivity := 2.0
 @export var min_zoom := 5.0
 @export var max_zoom := 50.0
-@onready var camera: Camera3D = $Camera3D
-@onready var camera_3d_2: Camera3D = $Camera3D2
 
 var is_dragging := false
 var last_mouse_position := Vector2.ZERO
-var zoom_distance := 1.0
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
@@ -36,4 +33,5 @@ func _unhandled_input(event):
 		translate(movement)
 		
 func _zoom_camera(amount: float):
-	camera_3d_2.size += amount
+	if Globals.selected_camera:
+		Globals.selected_camera.size += amount

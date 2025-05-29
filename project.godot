@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-MapHighlights="*res://map_highlights.gd"
+Globals="*res://Globals/globals.gd"
 
 [display]
 

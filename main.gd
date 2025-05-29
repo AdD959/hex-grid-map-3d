@@ -7,8 +7,16 @@ var current_tile_position_z = 0
 var row_position = 0
 var row_step = 0
 const TILE_COMPOSITE = preload("res://tile_composite.tscn")
+@onready var camera_isometric: Camera3D = $CameraRig/CameraIsometric
+@onready var camera_top_down: Camera3D = $CameraRig/CameraTopDown
 
 func _ready() -> void:
+	Globals.camera_isometric = camera_isometric
+	Globals.camera_top_down = camera_top_down
+	Globals.cameras = [Globals.camera_isometric, Globals.camera_top_down]
+	Globals.selected_camera = Globals.camera_isometric
+	Globals.selected_camera.current = true
+	
 	_generate_map()
 	
 func _generate_map():
