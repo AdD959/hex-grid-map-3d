@@ -42,7 +42,7 @@ func generate_hexagons(composite_tile_index: int):
 			var base_transform = Transform3D(Basis(), pos_3d_world)
 			var type = ["grass", "dark_grass"].pick_random()
 			add_multimesh_instance(type, base_transform)
-
+			inner_tiles_data_map[Vector2i(x,z)] = pos_3d_world
 			# If forest, maybe place a tree
 			if tile_type == "forest":
 				if randf() < 0.7:

@@ -27,7 +27,8 @@ func _move_unit_to_outer_tile(unit: Node3D, outer_coord: Vector2i) -> void:
 	if tile_data:
 		var inner_tile_data = tile_data.inner_tiles_data_map.get(Vector2i(0, 0), null)
 		if inner_tile_data:
-			var target_position = tile_data.position + inner_tile_data.position
+			print("moving to: ", inner_tile_data)
+			var target_position = inner_tile_data
 
 			# If there’s already a tween running on this unit, kill it:
 			if unit.has_meta("active_tween"):

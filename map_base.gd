@@ -15,8 +15,7 @@ const HEXAGON_GRASS_DARK = preload("res://tile_stuff/tile_grass/hexagon-grass-da
 func _ready() -> void:
 	_instantiate_multimesh_assets()
 	_generate_map()
-	#_generate_map_2()
-	#_add_unit()
+	_add_unit()
 	
 func _instantiate_multimesh_assets():
 	Globals.grass_tile = TILE_INNER_GRASS_SCENE.instantiate()
