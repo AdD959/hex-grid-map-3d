@@ -11,7 +11,7 @@ var composite_tile_count = 0
 const TILE_TYPES := ["forest", "grass"]
 const HEXAGON_GRASS_DARK = preload("res://tile_stuff/tile_grass/hexagon-grass-dark/hexagon-grass-dark.tscn")
 const AZTEC_PEASANT = preload("res://aztec-peasant.glb")
-const AZTEC_WARRIOR_GOLD = preload("res://aztec-warrior-gold.glb")
+const AZTEC_WARRIOR_GOLD = preload("res://aztec_warrior_gold.tscn")
 
 func begin():
 	_instantiate_multimesh_assets()
@@ -35,6 +35,8 @@ func _add_unit():
 	
 	# Combine outer tile's world position with inner tile's local offset
 	unit.position = outer_tile.position 
+	unit.inner_tile_position = Vector2i(0, 0)
+	unit.outer_tile_position = Vector2i(0, 0)
 	#+ inner_tile.position
 
 	self.add_child(unit)
@@ -79,7 +81,15 @@ func _generate_map():
 				tile_new.tile_type = "forest"
 			tile_new.generate_hexagons(composite_tile_count)
 			composite_tile_count += 1
-
+			
+			var label_3d := Label3D.new()
+			label_3d.text = "(%d, %d)" % [x, z]
+			label_3d.position = Vector3(10,10,10)  # 1.0 units above tile
+			label_3d.billboard = BaseMaterial3D.BILLBOARD_ENABLED  # Optional: lock rotation
+			label_3d.modulate = Color(1, 1, 1)  # White text
+			label_3d.font_size = 128  # Optional: depends on your font resource
+			label_3d.no_depth_test = true
+			tile_new.add_child(label_3d)
 			add_child(tile_new)
 		if is_even_row:
 			x_shift += 20

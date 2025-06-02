@@ -43,7 +43,7 @@ func generate_hexagons(composite_tile_index: int):
 			var base_transform = Transform3D(Basis(), pos_3d_world)
 			var type = ["grass", "dark_grass"].pick_random()
 			add_multimesh_instance(type, base_transform)
-			inner_tiles_data_map[Vector2i(x, z)] = pos_3d_world
+			inner_tiles_data_map[Vector2i(q, r)] = Vector3(x, 0 ,z)
 
 			# Create 3D label and place it just above the tile
 			var label_3d := Label3D.new()
