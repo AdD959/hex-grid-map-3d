@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://g5qhpbroc4md"
-path="res://.godot/imported/hexagon-red.glb-216153424d9ca2a4bab83f31cb154916.scn"
+uid="uid://cyw0oy4x16e4s"
+path="res://.godot/imported/hexagon-grass.glb-21868b672d07c061e3c7cc9f3f5c665c.scn"
 
 [deps]
 
-source_file="res://hexagon-red.glb"
-dest_files=["res://.godot/imported/hexagon-red.glb-216153424d9ca2a4bab83f31cb154916.scn"]
+source_file="res://tile_stuff/tile_grass/hexagon-grass.glb"
+dest_files=["res://.godot/imported/hexagon-grass.glb-21868b672d07c061e3c7cc9f3f5c665c.scn"]
 
 [params]
 
@@ -36,29 +36,21 @@ _subresources={
 "materials": {
 "Material.001": {
 "use_external/enabled": true,
-"use_external/path": "res://tile_stuff/Material.001.tres"
+"use_external/path": "res://tile_stuff/tile_grass/Material.001.tres"
 },
 "Material.002": {
 "use_external/enabled": true,
-"use_external/path": "res://tile_stuff/Material.002.tres"
+"use_external/path": "res://tile_stuff/tile_grass/Material.002.tres"
 }
 },
 "meshes": {
-"hexagon-red_Cylinder": {
+"hexagon-grass_Cylinder": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "save_to_file/enabled": true,
-"save_to_file/path": "res://tile_stuff/hexagon-red_Cylinder.res"
-},
-"hexagon-red_Cylinder_001": {
-"generate/lightmap_uv": 0,
-"generate/lods": 0,
-"generate/shadow_meshes": 0,
-"lods/normal_merge_angle": 60.0,
-"save_to_file/enabled": true,
-"save_to_file/path": "res://tile_stuff/hexagon-red_Cylinder_001.res"
+"save_to_file/path": "res://tile_stuff/tile_grass/hexagon-grass_Cylinder.res"
 }
 }
 }

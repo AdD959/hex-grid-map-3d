@@ -13,5 +13,3 @@ script = ExtResource("1_6tq0x")
 shape = SubResource("ConvexPolygonShape3D_6tq0x")
 
 [node name="hexagon-highlight" parent="." instance=ExtResource("2_6tq0x")]
-
-[node name="hexagon-highlight2" parent="." instance=ExtResource("2_6tq0x")]

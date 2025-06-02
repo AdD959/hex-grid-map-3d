@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkga52rrq3s0o"]
+
+[ext_resource type="ArrayMesh" uid="uid://bgcya7u88rj6m" path="res://tile_stuff/tile_grass/hexagon-grass_Cylinder.res" id="1_s5qop"]
+[ext_resource type="Script" uid="uid://dhvh01ai0i4av" path="res://tile_stuff/tile_grass/tile_inner_grass_scene.gd" id="2_qwhfd"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_5vw27"]
+transform_format = 1
+mesh = ExtResource("1_s5qop")
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D"]
+multimesh = SubResource("MultiMesh_5vw27")
+script = ExtResource("2_qwhfd")

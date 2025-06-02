@@ -1,7 +1,5 @@
 extends Node3D
 
-const GRID_WIDTH := 5
-const GRID_HEIGHT := 5
 const HIGHLIGHT_SCENE = preload("res://highlight_scene.tscn")
 
 var highlight_tiles: Array = []
@@ -32,7 +30,7 @@ func _generate_map():
 			
 			tile_new.position = Vector3(
 				x_pos,
-				0.4,       # Y is not used in positioning
+				0.1,       # Y is not used in positioning
 				z_pos + z_shift_even if x % 2 == 0 else z_pos + z_shift_odd
 			)
 			

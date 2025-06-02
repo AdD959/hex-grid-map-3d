@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://g5qhpbroc4md"
-path="res://.godot/imported/hexagon-red.glb-216153424d9ca2a4bab83f31cb154916.scn"
+uid="uid://kpckgfrgqegt"
+path="res://.godot/imported/hexagon-grass-dark.glb-4f7d990e573e7ed8aa0d2a269770ea88.scn"
 
 [deps]
 
-source_file="res://hexagon-red.glb"
-dest_files=["res://.godot/imported/hexagon-red.glb-216153424d9ca2a4bab83f31cb154916.scn"]
+source_file="res://tile_stuff/tile_grass/hexagon-grass-dark/hexagon-grass-dark.glb"
+dest_files=["res://.godot/imported/hexagon-grass-dark.glb-4f7d990e573e7ed8aa0d2a269770ea88.scn"]
 
 [params]
 
@@ -36,29 +36,29 @@ _subresources={
 "materials": {
 "Material.001": {
 "use_external/enabled": true,
-"use_external/path": "res://tile_stuff/Material.001.tres"
+"use_external/path": "res://tile_stuff/tile_grass/hexagon-grass-dark/Material.001.tres"
 },
 "Material.002": {
 "use_external/enabled": true,
-"use_external/path": "res://tile_stuff/Material.002.tres"
+"use_external/path": "res://tile_stuff/tile_grass/hexagon-grass-dark/Material.002.tres"
 }
 },
 "meshes": {
-"hexagon-red_Cylinder": {
+"hexagon-grass-dark_Cylinder": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "save_to_file/enabled": true,
-"save_to_file/path": "res://tile_stuff/hexagon-red_Cylinder.res"
+"save_to_file/path": "res://tile_stuff/tile_grass/hexagon-grass-dark/hexagon-grass-dark_Cylinder.res"
 },
-"hexagon-red_Cylinder_001": {
+"hexagon-grass-dark_Cylinder_001": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "save_to_file/enabled": true,
-"save_to_file/path": "res://tile_stuff/hexagon-red_Cylinder_001.res"
+"save_to_file/path": "res://tile_stuff/tile_grass/hexagon-grass-dark/hexagon-grass-dark_Cylinder_001.res"
 }
 }
 }

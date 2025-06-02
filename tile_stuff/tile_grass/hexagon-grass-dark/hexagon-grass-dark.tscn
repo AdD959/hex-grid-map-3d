@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwprw2lvm3ege"]
+
+[ext_resource type="ArrayMesh" uid="uid://1kfaavn5n7b5" path="res://tile_stuff/tile_grass/hexagon-grass-dark/hexagon-grass-dark_Cylinder.res" id="1_35mqs"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_sg86v"]
+transform_format = 1
+mesh = ExtResource("1_35mqs")
+
+[node name="Hexagon-grass-dark" type="MultiMeshInstance3D"]
+multimesh = SubResource("MultiMesh_sg86v")

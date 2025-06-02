@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bl1p53g0ofcup"]
+
+[ext_resource type="ArrayMesh" uid="uid://cemyu0ou3gh85" path="res://tile_stuff/trees/tree-low-poly-1_Icosphere_007.res" id="1_m2jxg"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_nto7b"]
+transform_format = 1
+mesh = ExtResource("1_m2jxg")
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D"]
+multimesh = SubResource("MultiMesh_nto7b")

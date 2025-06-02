@@ -30,7 +30,7 @@ current = true
 size = 0.885
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 4.62824, 19.2664, 20.2753)
+transform = Transform3D(1, 0, 0, 0, -0.453991, 0.891007, 0, -0.891007, -0.453991, 4.62824, 19.2664, 20.2753)
 shadow_enabled = true
 
 [node name="UI" type="CanvasLayer" parent="."]

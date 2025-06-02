@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://g5qhpbroc4md"
-path="res://.godot/imported/hexagon-red.glb-216153424d9ca2a4bab83f31cb154916.scn"
+uid="uid://vjgionfkkhvl"
+path="res://.godot/imported/tree-low-poly-1.glb-5332638df52523c54c3face565492074.scn"
 
 [deps]
 
-source_file="res://hexagon-red.glb"
-dest_files=["res://.godot/imported/hexagon-red.glb-216153424d9ca2a4bab83f31cb154916.scn"]
+source_file="res://tile_stuff/trees/tree-low-poly-1.glb"
+dest_files=["res://.godot/imported/tree-low-poly-1.glb-5332638df52523c54c3face565492074.scn"]
 
 [params]
 
@@ -34,31 +34,35 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "materials": {
+"Material": {
+"use_external/enabled": true,
+"use_external/path": "res://tile_stuff/trees/Material.tres"
+},
 "Material.001": {
 "use_external/enabled": true,
-"use_external/path": "res://tile_stuff/Material.001.tres"
+"use_external/path": "res://tile_stuff/trees/Material.001.tres"
 },
 "Material.002": {
 "use_external/enabled": true,
-"use_external/path": "res://tile_stuff/Material.002.tres"
+"use_external/path": "res://tile_stuff/trees/Material.002.tres"
+},
+"Material.003": {
+"use_external/enabled": true,
+"use_external/path": "res://tile_stuff/trees/Material.003.tres"
+},
+"Material.006": {
+"use_external/enabled": true,
+"use_external/path": "res://tile_stuff/trees/Material.006.tres"
 }
 },
 "meshes": {
-"hexagon-red_Cylinder": {
+"tree-low-poly-1_Icosphere_007": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "save_to_file/enabled": true,
-"save_to_file/path": "res://tile_stuff/hexagon-red_Cylinder.res"
-},
-"hexagon-red_Cylinder_001": {
-"generate/lightmap_uv": 0,
-"generate/lods": 0,
-"generate/shadow_meshes": 0,
-"lods/normal_merge_angle": 60.0,
-"save_to_file/enabled": true,
-"save_to_file/path": "res://tile_stuff/hexagon-red_Cylinder_001.res"
+"save_to_file/path": "res://tile_stuff/trees/tree-low-poly-1_Icosphere_007.res"
 }
 }
 }
