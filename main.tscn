@@ -9,12 +9,6 @@
 [node name="Main" type="Node3D"]
 script = ExtResource("1_mw5gw")
 
-[node name="MapBase" type="Node3D" parent="."]
-script = ExtResource("2_1bvp3")
-
-[node name="MapHighlights" type="Node3D" parent="."]
-script = ExtResource("3_lquwl")
-
 [node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("2_sti82")
 
@@ -29,10 +23,6 @@ projection = 1
 current = true
 size = 0.885
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.453991, 0.891007, 0, -0.891007, -0.453991, 4.62824, 19.2664, 20.2753)
-shadow_enabled = true
-
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="CameraToggle" type="Button" parent="UI"]
@@ -40,5 +30,15 @@ offset_right = 8.0
 offset_bottom = 8.0
 text = "Toggle Camera"
 script = ExtResource("3_h2yge")
+
+[node name="MapBase" type="Node3D" parent="."]
+script = ExtResource("2_1bvp3")
+
+[node name="MapHighlights" type="Node3D" parent="."]
+script = ExtResource("3_lquwl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.453991, 0.891007, 0, -0.891007, -0.453991, 4.62824, 19.2664, 20.2753)
+shadow_enabled = true
 
 [connection signal="pressed" from="UI/CameraToggle" to="UI/CameraToggle" method="_on_pressed"]

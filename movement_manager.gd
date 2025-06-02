@@ -24,6 +24,7 @@ func _handle_click(screen_position: Vector2) -> void:
 
 func _move_unit_to_outer_tile(unit: Node3D, outer_coord: Vector2i) -> void:
 	var tile_data = Globals.tile_data_map.get(outer_coord)
+	print("click on tile: ", outer_coord)
 	if tile_data:
 		var inner_tile_data = tile_data.inner_tiles_data_map.get(Vector2i(0, 0), null)
 		if inner_tile_data:

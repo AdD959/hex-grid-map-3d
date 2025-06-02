@@ -6,8 +6,8 @@ var camera_top_down: Camera3D
 var cameras: Array = [Camera3D]
 var selected_camera: Camera3D = null 
 
-const GRID_WIDTH:= 25
-const GRID_HEIGHT:= 25
+const GRID_WIDTH:= 5
+const GRID_HEIGHT:= 5
 
 var tile_data_map:= {}
 

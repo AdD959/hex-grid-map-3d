@@ -5,18 +5,19 @@ var current_tile_position_z = 0
 var row_position = 0
 var row_step = 0
 const TILE_COMPOSITE = preload("res://tile_composite.tscn")
-const UNIT_CYCLINDER = preload("res://unit_cyclinder.glb")
 const TREE_1 = preload("res://tile_stuff/trees/tree-1.tscn")
 const TILE_INNER_GRASS_SCENE = preload("res://tile_stuff/tile_grass/tile_inner_grass_scene.tscn")
 var composite_tile_count = 0
 const TILE_TYPES := ["forest", "grass"]
 const HEXAGON_GRASS_DARK = preload("res://tile_stuff/tile_grass/hexagon-grass-dark/hexagon-grass-dark.tscn")
+const AZTEC_PEASANT = preload("res://aztec-peasant.glb")
+const AZTEC_WARRIOR_GOLD = preload("res://aztec-warrior-gold.glb")
 
-func _ready() -> void:
+func begin():
 	_instantiate_multimesh_assets()
 	_generate_map()
 	_add_unit()
-	
+
 func _instantiate_multimesh_assets():
 	Globals.grass_tile = TILE_INNER_GRASS_SCENE.instantiate()
 	Globals.dark_grass_tile = HEXAGON_GRASS_DARK.instantiate()
@@ -26,7 +27,7 @@ func _instantiate_multimesh_assets():
 	add_child(Globals.tree_1_multimesh)
 	
 func _add_unit():
-	var unit = UNIT_CYCLINDER.instantiate()
+	var unit = AZTEC_WARRIOR_GOLD.instantiate()
 	unit.name = "unit"
 	
 	var outer_tile = Globals.tile_data_map[Vector2i(0, 0)]

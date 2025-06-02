@@ -13,6 +13,7 @@ var tile_types = {
 }
 var tile_index:= 0
 var hex_index:= 0
+
 	
 func add_multimesh_instance(type: String, transform: Transform3D):
 	Globals.tile_instance_refences[type] = transform
@@ -42,23 +43,35 @@ func generate_hexagons(composite_tile_index: int):
 			var base_transform = Transform3D(Basis(), pos_3d_world)
 			var type = ["grass", "dark_grass"].pick_random()
 			add_multimesh_instance(type, base_transform)
-			inner_tiles_data_map[Vector2i(x,z)] = pos_3d_world
+			inner_tiles_data_map[Vector2i(x, z)] = pos_3d_world
+
+			# Create 3D label and place it just above the tile
+			var label_3d := Label3D.new()
+			label_3d.text = "(%d, %d)" % [q, r]
+			label_3d.position = Vector3(x,1,z)  # 1.0 units above tile
+			label_3d.billboard = BaseMaterial3D.BILLBOARD_ENABLED  # Optional: lock rotation
+			label_3d.modulate = Color(1, 1, 1)  # White text
+			label_3d.font_size = 64  # Optional: depends on your font resource
+			label_3d.no_depth_test = true
+
+			add_child(label_3d)
+			
 			# If forest, maybe place a tree
-			if tile_type == "forest":
-				if randf() < 0.7:
-					var scale = randf_range(0.7, 1.0)
-					var rotation = randf_range(0, TAU)  # TAU = 2 * PI
-					
-					# Rotate around Y-axis (vertical in Godot 3D)
-					var rotation_basis = Basis(Vector3.UP, rotation)
-					# Apply uniform scaling using a scale matrix
-					var scale_basis = Basis()
-					scale_basis.x *= scale
-					scale_basis.y *= scale
-					scale_basis.z *= scale
-
-					# Combine rotation and scale
-					var final_basis = rotation_basis * scale_basis
-
-					var tree_transform = Transform3D(final_basis, pos_3d_world)
-					Globals.tree_1_multimesh.multimesh.set_instance_transform(current_index, tree_transform)
+			#if tile_type == "forest":
+				#if randf() < 0.7:
+					#var scale = randf_range(0.7, 1.0)
+					#var rotation = randf_range(0, TAU)  # TAU = 2 * PI
+					#
+					## Rotate around Y-axis (vertical in Godot 3D)
+					#var rotation_basis = Basis(Vector3.UP, rotation)
+					## Apply uniform scaling using a scale matrix
+					#var scale_basis = Basis()
+					#scale_basis.x *= scale
+					#scale_basis.y *= scale
+					#scale_basis.z *= scale
+#
+					## Combine rotation and scale
+					#var final_basis = rotation_basis * scale_basis
+#
+					#var tree_transform = Transform3D(final_basis, pos_3d_world)
+					#Globals.tree_1_multimesh.multimesh.set_instance_transform(current_index, tree_transform)
