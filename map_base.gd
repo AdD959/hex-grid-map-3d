@@ -27,10 +27,12 @@ func begin():
 func _instantiate_multimesh_assets():
 	Globals.grass_tile = TILE_INNER_GRASS_SCENE.instantiate()
 	Globals.dark_grass_tile = HEXAGON_GRASS_DARK.instantiate()
-	Globals.tree_1_multimesh = TREE_1.instantiate()
+	#Globals.tree_1_multimesh = TREE_1.instantiate()
+	Globals.tree_2_multimesh = TREE_2.instantiate()
 	add_child(Globals.grass_tile)
 	add_child(Globals.dark_grass_tile)
 	add_child(Globals.tree_1_multimesh)
+	add_child(Globals.tree_2_multimesh)
 	
 func _add_unit():
 	#var unit = CLAYHUMAN.instantiate()
@@ -92,7 +94,7 @@ func _generate_map():
 	var total_tiles = Globals.GRID_WIDTH * Globals.GRID_HEIGHT * 37
 	Globals.grass_tile.multimesh.instance_count = total_tiles
 	Globals.dark_grass_tile.multimesh.instance_count = total_tiles
-	Globals.tree_1_multimesh.multimesh.instance_count = total_tiles
+	Globals.tree_2_multimesh.multimesh.instance_count = total_tiles
 	
 	var x_shift = 0
 	var z_shift = 0

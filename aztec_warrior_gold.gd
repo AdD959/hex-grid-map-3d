@@ -3,7 +3,7 @@ extends Node3D
 var _outer_tile_position: Vector2i
 var _inner_tile_position: Vector2i
 
-var move_duration := 0.2  # seconds
+var move_duration := 1  # seconds
 
 # Active tween reference
 var tween: Tween = null

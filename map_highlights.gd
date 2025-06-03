@@ -93,6 +93,6 @@ func _process(delta: float) -> void:
 				if tile_moveable:
 					material.albedo_color = Color(1, 0, 0)  # Red
 				else:
-					material.albedo_color = Color(1, 1, 1) # Red tint
+					material.albedo_color = Color(1, 1, 1) # White
 
 		last_hovered_tile = hovered_tile

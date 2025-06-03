@@ -74,7 +74,7 @@ func generate_hexagons(composite_tile_index: int):
 					var final_basis = rotation_basis * scale_basis
 
 					var tree_transform = Transform3D(final_basis, pos_3d_world)
-					Globals.tree_1_multimesh.multimesh.set_instance_transform(current_index, tree_transform)
+					Globals.tree_2_multimesh.multimesh.set_instance_transform(current_index, tree_transform)
 					inner_tiles_data_map[Vector2i(q, r)]["tree"] = true
 					
 	
@@ -95,5 +95,5 @@ func generate_hexagons(composite_tile_index: int):
 					var final_basis = rotation_basis * scale_basis
 
 					var tree_transform = Transform3D(final_basis, pos_3d_world)
-					Globals.tree_1_multimesh.multimesh.set_instance_transform(current_index, tree_transform)
+					Globals.tree_2_multimesh.multimesh.set_instance_transform(current_index, tree_transform)
 					inner_tiles_data_map[Vector2i(q, r)]["tree"] = true

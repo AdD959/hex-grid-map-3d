@@ -44,28 +44,65 @@ func get_composite_path(from_inner: Vector2i, from_outer: Vector2i, to_outer: Ve
 	if entry_points.is_empty():
 		push_error("No entry points for direction: " + direction)
 		return []
-	# Just use the first one for now
+
 	var exit_points = INNER_EDGE_MAP.get(direction, [])
-	
+
 	var target_entry = entry_points[1]
 	var target_exit = exit_points[1]
-	# Run A* from current inner tile to the entry tile of target composite tile
-	var current_tile_path = run_astar(from_inner, target_exit)
-	var next_tile_path = run_astar(target_entry, to_inner)
-	
-	return [ current_tile_path, next_tile_path ]
+
+	# A* from current inner tile to the exit tile (avoid trees)
+	var current_tile_path = run_astar(from_inner, target_exit, from_outer)
+
+	# Find best reachable tile in next composite (avoid trees)
+	var destination_inner = find_closest_reachable_inner_tile(to_outer, target_entry, to_inner)
+
+	if destination_inner == null:
+		return []
+
+	# A* into next tile (avoid trees)
+	var next_tile_path = run_astar(target_entry, destination_inner, to_outer)
+
+	# If either path is empty, it's blocked
+	if current_tile_path.is_empty() or next_tile_path.is_empty():
+		return []
+
+	return [current_tile_path, next_tile_path]
+
+
+func is_tile_walkable(outer_tile: Vector2i, inner_tile: Vector2i) -> bool:
+	var data = Globals.tile_data_map.get(outer_tile, null)
+	if data and data.inner_tiles_data_map.has(inner_tile):
+		return not data.inner_tiles_data_map[inner_tile].get("tree", false)
+	return false
 
 func paths_are_blocked(tiles: Array[Variant], outer_composite: Vector2i) -> bool:
-	var tiles_with_trees = 0
 	for tile in tiles:
-		if Globals.tile_data_map[outer_composite].inner_tiles_data_map[tile]["tree"]:
-			tiles_with_trees += 1
-	if tiles_with_trees == tiles.size():
-		return true
-	else:
-		return false
+		if is_tile_walkable(outer_composite, tile):
+			return false
+	return true
 
-func run_astar(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
+func find_closest_reachable_inner_tile(outer_tile: Vector2i, from_inner: Vector2i, target_inner: Vector2i) -> Variant:
+	var data = Globals.tile_data_map.get(outer_tile, null)
+	if data == null:
+		return null
+
+	var all_tiles = data.inner_tiles_data_map.keys()
+	var walkable_tiles = []
+	for tile in all_tiles:
+		if is_tile_walkable(outer_tile, tile):
+			walkable_tiles.append(tile)
+
+	# Sort by closeness to the central tile (usually 0,0)
+	walkable_tiles.sort_custom(func(a, b): return a.distance_squared_to(target_inner) < b.distance_squared_to(target_inner))
+
+	for tile in walkable_tiles:
+		var path = run_astar(from_inner, tile, outer_tile)
+		if path.size() > 0:
+			return tile  # First reachable walkable tile
+
+	return null
+
+func run_astar(start: Vector2i, goal: Vector2i, outer_tile: Variant = null) -> Array[Vector2i]:
 	var open_set: Array[Vector2i] = [start]
 	var came_from = {}
 	var g_score = {start: 0}
@@ -79,6 +116,9 @@ func run_astar(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
 
 		open_set.remove_at(0)
 		for neighbor in get_neighbors(current):
+			if outer_tile and not is_tile_walkable(outer_tile, neighbor):
+				continue  # Skip tiles with trees
+			
 			var tentative_g = g_score.get(current, INF) + 1
 			if tentative_g < g_score.get(neighbor, INF):
 				came_from[neighbor] = current
@@ -87,7 +127,8 @@ func run_astar(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
 				if not neighbor in open_set:
 					open_set.append(neighbor)
 
-	return []
+	return []  # No valid path
+
 
 func reconstruct_path(came_from: Dictionary, current: Vector2i) -> Array[Vector2i]:
 	var path: Array[Vector2i] = [current]
