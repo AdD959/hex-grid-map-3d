@@ -68,10 +68,13 @@ func _process(delta: float) -> void:
 	
 
 	if hovered_tile != last_hovered_tile and hovered_tile != null:
-		var current_unit_tile = Globals.selected_unit._outer_tile_position
-		var direction = HexPathfinder.get_hex_direction(current_unit_tile, hovered_tile.tile_position)
-		var tile_moveable = HexPathfinder.entry_and_exits_are_free(current_unit_tile, hovered_tile.tile_position, direction)
-
+		var current_unit = Globals.selected_unit
+		var path = HexPathfinder.get_composite_path(current_unit.inner_tile_position, current_unit._outer_tile_position, hovered_tile.tile_position, Vector2i(0,0))
+		var tile_moveable = false
+		if path.size() < 1:
+			tile_moveable = false
+		else:
+			tile_moveable = true
 		# Hide the last one
 		if last_hovered_tile != null:
 			last_hovered_tile.visible = false
@@ -91,8 +94,8 @@ func _process(delta: float) -> void:
 					material = StandardMaterial3D.new()
 					mesh.set_surface_override_material(0, material)
 				if tile_moveable:
-					material.albedo_color = Color(1, 0, 0)  # Red
-				else:
 					material.albedo_color = Color(1, 1, 1) # White
+				else:
+					material.albedo_color = Color(1, 0, 0)  # Red
 
 		last_hovered_tile = hovered_tile

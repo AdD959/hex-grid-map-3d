@@ -78,8 +78,8 @@ func generate_hexagons(composite_tile_index: int):
 					inner_tiles_data_map[Vector2i(q, r)]["tree"] = true
 					
 	
-			if tile_position == Vector2i(3,1):
-				if randf() < 0.3:
+			if tile_position == Vector2i(3,1) or tile_position == Vector2i(2,1):
+				if randf() < 0.7:
 					var scale = randf_range(0.7, 1.0)
 					var rotation = randf_range(0, TAU)  # TAU = 2 * PI
 					
