@@ -66,10 +66,11 @@ func _move_unit_to_tile(unit: Node3D, outer_coord: Vector2i) -> void:
 	var pathfinder = Pathfinder.new()
 	var inner_coord = Vector2i(0,0)
 	var path = pathfinder.get_composite_path(unit.inner_tile_position, unit.outer_tile_position, outer_coord, inner_coord)
-	for tile in path[0]:
-		unit.inner_tile_position = tile
+	if path.size() != 0:
+		for tile in path[0]:
+			unit.inner_tile_position = tile
+			
+		unit.outer_tile_position = outer_coord
 		
-	unit.outer_tile_position = outer_coord
-	
-	for tile in path[1]:
-		unit.inner_tile_position = tile
+		for tile in path[1]:
+			unit.inner_tile_position = tile

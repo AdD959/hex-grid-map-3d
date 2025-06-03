@@ -37,7 +37,7 @@ func _queue_move():
 		push_error("Invalid inner tile position: %s" % _inner_tile_position)
 		return
 	
-	var target_position: Vector3 = outer_tile.position + inner_map[_inner_tile_position]
+	var target_position: Vector3 = outer_tile.position + inner_map[_inner_tile_position]["position"]
 	
 	# Add to queue
 	move_queue.append(target_position)

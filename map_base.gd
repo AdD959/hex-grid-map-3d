@@ -44,8 +44,8 @@ func _add_unit():
 	
 	#unit.name = "unit"
 	
-	var outer_tile = Globals.tile_data_map[Vector2i(0, 0)]
-	var inner_tile = outer_tile.inner_tiles_data_map[Vector2i(0, 0)]
+	var outer_tile = Globals.tile_data_map[Vector2i(2, 2)]
+	var inner_tile = outer_tile.inner_tiles_data_map[Vector2i(0, 0)]["position"]
 	
 	# Combine outer tile's world position with inner tile's local offset
 	#unit.position = outer_tile.position 
@@ -54,7 +54,7 @@ func _add_unit():
 	
 	unit2.position = outer_tile.position 
 	unit2.inner_tile_position = Vector2i(0, 0)
-	unit2.outer_tile_position =  Vector2i(0, 0)
+	unit2.outer_tile_position =  Vector2i(2,2)
 	#
 	#unit3.position = outer_tile.position 
 	#unit3.inner_tile_position = Vector2i(2, 0)

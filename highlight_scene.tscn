@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://copanqtyh5yy"]
+[gd_scene load_steps=6 format=3 uid="uid://copanqtyh5yy"]
 
 [ext_resource type="Script" uid="uid://s10k6t5kf5lr" path="res://highlight_scene.gd" id="1_6tq0x"]
 [ext_resource type="PackedScene" uid="uid://ogjtrinqob0y" path="res://hexagon-highlight.glb" id="2_6tq0x"]
+[ext_resource type="ArrayMesh" uid="uid://n2txwjmyipje" path="res://hexagon-highlight_Cylinder_033.res" id="3_m16h8"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_6tq0x"]
 points = PackedVector3Array(14, 0, 0, 6, 0, 12.7, -6, 0, 12.7, -14, 0, 0, -6, 0, -12.7, 6, 0, -12.7)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_4hu56"]
+shadow_mesh = ExtResource("3_m16h8")
 
 [node name="Highlight" type="StaticBody3D"]
 script = ExtResource("1_6tq0x")
@@ -13,3 +17,8 @@ script = ExtResource("1_6tq0x")
 shape = SubResource("ConvexPolygonShape3D_6tq0x")
 
 [node name="hexagon-highlight" parent="." instance=ExtResource("2_6tq0x")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+visible = false
+mesh = SubResource("ArrayMesh_4hu56")

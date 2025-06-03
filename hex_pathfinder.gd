@@ -27,9 +27,20 @@ const INNER_EDGE_MAP = {
 	"NW": [Vector2i(0, -3), Vector2i(-1, -2), Vector2i(-2, -1), Vector2i(-3, 0)]
 }
 
+func entry_and_exits_are_free(from_outer: Vector2i, to_outer: Vector2i, direction: String) -> bool:
+	var blocked = false
+	var entry_points = INNER_EDGE_MAP.get(get_opposite_direction(direction), [])
+	var exit_points = INNER_EDGE_MAP.get(direction, [])
+	if paths_are_blocked(entry_points, to_outer) or paths_are_blocked(exit_points, from_outer):
+		blocked = true
+	return blocked
+
 func get_composite_path(from_inner: Vector2i, from_outer: Vector2i, to_outer: Vector2i, to_inner: Vector2i) -> Array[Array]:
 	var direction := get_hex_direction(from_outer, to_outer)
 	var entry_points = INNER_EDGE_MAP.get(get_opposite_direction(direction), [])
+	if paths_are_blocked(entry_points, to_outer):
+		push_error("No entry points for direction: " + direction)
+		return []
 	if entry_points.is_empty():
 		push_error("No entry points for direction: " + direction)
 		return []
@@ -43,6 +54,16 @@ func get_composite_path(from_inner: Vector2i, from_outer: Vector2i, to_outer: Ve
 	var next_tile_path = run_astar(target_entry, to_inner)
 	
 	return [ current_tile_path, next_tile_path ]
+
+func paths_are_blocked(tiles: Array[Variant], outer_composite: Vector2i) -> bool:
+	var tiles_with_trees = 0
+	for tile in tiles:
+		if Globals.tile_data_map[outer_composite].inner_tiles_data_map[tile]["tree"]:
+			tiles_with_trees += 1
+	if tiles_with_trees == tiles.size():
+		return true
+	else:
+		return false
 
 func run_astar(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
 	var open_set: Array[Vector2i] = [start]

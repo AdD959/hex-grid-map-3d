@@ -43,7 +43,7 @@ func generate_hexagons(composite_tile_index: int):
 			var base_transform = Transform3D(Basis(), pos_3d_world)
 			var type = ["grass", "dark_grass"].pick_random()
 			add_multimesh_instance(type, base_transform)
-			inner_tiles_data_map[Vector2i(q, r)] = Vector3(x, 0 ,z)
+			inner_tiles_data_map[Vector2i(q, r)] = { "position" : Vector3(x, 0 ,z), "tree": false }
 
 			# Create 3D label and place it just above the tile
 			var label_3d := Label3D.new()
@@ -57,21 +57,43 @@ func generate_hexagons(composite_tile_index: int):
 			add_child(label_3d)
 			
 			# If forest, maybe place a tree
-			#if tile_type == "forest":
-				#if randf() < 0.7:
-					#var scale = randf_range(0.7, 1.0)
-					#var rotation = randf_range(0, TAU)  # TAU = 2 * PI
-					#
-					## Rotate around Y-axis (vertical in Godot 3D)
-					#var rotation_basis = Basis(Vector3.UP, rotation)
-					## Apply uniform scaling using a scale matrix
-					#var scale_basis = Basis()
-					#scale_basis.x *= scale
-					#scale_basis.y *= scale
-					#scale_basis.z *= scale
-#
-					## Combine rotation and scale
-					#var final_basis = rotation_basis * scale_basis
-#
-					#var tree_transform = Transform3D(final_basis, pos_3d_world)
-					#Globals.tree_1_multimesh.multimesh.set_instance_transform(current_index, tree_transform)
+			if tile_position == Vector2i(1,1):
+				if randf() < 2.0:
+					var scale = randf_range(0.7, 1.0)
+					var rotation = randf_range(0, TAU)  # TAU = 2 * PI
+					
+					# Rotate around Y-axis (vertical in Godot 3D)
+					var rotation_basis = Basis(Vector3.UP, rotation)
+					# Apply uniform scaling using a scale matrix
+					var scale_basis = Basis()
+					scale_basis.x *= scale
+					scale_basis.y *= scale
+					scale_basis.z *= scale
+
+					# Combine rotation and scale
+					var final_basis = rotation_basis * scale_basis
+
+					var tree_transform = Transform3D(final_basis, pos_3d_world)
+					Globals.tree_1_multimesh.multimesh.set_instance_transform(current_index, tree_transform)
+					inner_tiles_data_map[Vector2i(q, r)]["tree"] = true
+					
+	
+			if tile_position == Vector2i(3,1):
+				if randf() < 0.3:
+					var scale = randf_range(0.7, 1.0)
+					var rotation = randf_range(0, TAU)  # TAU = 2 * PI
+					
+					# Rotate around Y-axis (vertical in Godot 3D)
+					var rotation_basis = Basis(Vector3.UP, rotation)
+					# Apply uniform scaling using a scale matrix
+					var scale_basis = Basis()
+					scale_basis.x *= scale
+					scale_basis.y *= scale
+					scale_basis.z *= scale
+
+					# Combine rotation and scale
+					var final_basis = rotation_basis * scale_basis
+
+					var tree_transform = Transform3D(final_basis, pos_3d_world)
+					Globals.tree_1_multimesh.multimesh.set_instance_transform(current_index, tree_transform)
+					inner_tiles_data_map[Vector2i(q, r)]["tree"] = true

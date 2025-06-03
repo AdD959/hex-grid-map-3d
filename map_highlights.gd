@@ -65,12 +65,34 @@ func _process(delta: float) -> void:
 	var hovered_tile: Node3D = null
 	if result and result.has("collider"):
 		hovered_tile = result["collider"]
+	
 
-	if hovered_tile != last_hovered_tile:
+	if hovered_tile != last_hovered_tile and hovered_tile != null:
+		var current_unit_tile = Globals.selected_unit._outer_tile_position
+		var direction = HexPathfinder.get_hex_direction(current_unit_tile, hovered_tile.tile_position)
+		var tile_moveable = HexPathfinder.entry_and_exits_are_free(current_unit_tile, hovered_tile.tile_position, direction)
+
 		# Hide the last one
 		if last_hovered_tile != null:
 			last_hovered_tile.visible = false
-		# Show the new one
+
+		# Show and color the new one
 		if hovered_tile != null:
 			hovered_tile.visible = true
+			var visual_node = hovered_tile.get_node("hexagon-highlight") # Adjust name if different
+			var visual_mesh = visual_node.get_node("Cylinder_032")
+
+			# Try to get mesh instance and change its material
+			if visual_mesh and visual_mesh is MeshInstance3D:
+				var mesh = visual_mesh as MeshInstance3D
+				var material := mesh.get_surface_override_material(0)
+
+				if material == null:
+					material = StandardMaterial3D.new()
+					mesh.set_surface_override_material(0, material)
+				if tile_moveable:
+					material.albedo_color = Color(1, 0, 0)  # Red
+				else:
+					material.albedo_color = Color(1, 1, 1) # Red tint
+
 		last_hovered_tile = hovered_tile
