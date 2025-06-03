@@ -1,13 +1,29 @@
 extends Node3D
-
 const HIGHLIGHT_SCENE = preload("res://highlight_scene.tscn")
-
 var highlight_tiles: Array = []
 
-func _ready() -> void:
-	_generate_map()
+# Optimization variables
+var hover_debounce_timer: float = 0.0
+var last_mouse_pos: Vector2 = Vector2.ZERO
+var path_cache: Dictionary = {}
+var moveable_material: StandardMaterial3D
+var non_moveable_material: StandardMaterial3D
+var last_hovered_tile: Node3D = null
 
-func _generate_map():
+const HOVER_DEBOUNCE_TIME: float = 0.05  # 50ms delay
+const MAX_CACHE_SIZE: int = 1000
+
+func _ready() -> void:
+	# Pre-create materials to avoid garbage collection
+	moveable_material = StandardMaterial3D.new()
+	moveable_material.albedo_color = Color(1, 1, 1)  # White
+	
+	non_moveable_material = StandardMaterial3D.new()
+	non_moveable_material.albedo_color = Color(1, 0, 0)  # Red
+	
+	generate_map()
+
+func generate_map():
 	var tile_width = 28   # Distance between centers horizontally (flat-top hex)
 	var tile_height = 24.7     # Distance between centers vertically (row spacing)
 	
@@ -36,6 +52,12 @@ func _generate_map():
 			
 			tile_new.tile_position = Vector2i(x, z)
 			tile_new.name = "Hex: { %s, %s }" % [x, z]
+			
+			# Cache the mesh reference to avoid repeated get_node() calls
+			var visual_mesh = tile_new.get_node("hexagon-highlight/Cylinder_032")
+			if visual_mesh:
+				tile_new.set_meta("cached_mesh", visual_mesh)
+			
 			add_child(tile_new)
 		if is_even_row:
 			x_shift += 20
@@ -44,58 +66,85 @@ func _generate_map():
 			x_shift += 22
 			z_shift_even += 3.5
 
-var last_hovered_tile: Node3D = null
+func get_cached_path(from_inner: Vector2i, from_outer: Vector2i, to_outer: Vector2i, to_inner: Vector2i) -> Array:
+	var cache_key = str(from_inner) + "|" + str(from_outer) + "|" + str(to_outer) + "|" + str(to_inner)
+	
+	if cache_key in path_cache:
+		return path_cache[cache_key]
+	
+	var path = HexPathfinder.get_composite_path(from_inner, from_outer, to_outer, to_inner)
+	path_cache[cache_key] = path
+	
+	# Limit cache size to prevent memory bloat
+	if path_cache.size() > MAX_CACHE_SIZE:
+		path_cache.clear()
+	
+	return path
 
 func _process(delta: float) -> void:
-	if Globals.selected_camera == null:
+	# Early exits
+	if Globals.selected_camera == null or Globals.selected_unit == null:
 		return
 	
-	var mouse_pos = get_viewport().get_mouse_position()
-	var ray_origin = Globals.selected_camera.project_ray_origin(mouse_pos)
-	var ray_direction = Globals.selected_camera.project_ray_normal(mouse_pos)
+	# Debounce hover processing
+	hover_debounce_timer -= delta
+	if hover_debounce_timer > 0:
+		return
+	
+	# Check if mouse moved
+	var current_mouse_pos = get_viewport().get_mouse_position()
+	if current_mouse_pos == last_mouse_pos:
+		return
+	last_mouse_pos = current_mouse_pos
+	
+	# Raycast to find hovered tile
+	var ray_origin = Globals.selected_camera.project_ray_origin(current_mouse_pos)
+	var ray_direction = Globals.selected_camera.project_ray_normal(current_mouse_pos)
 	var space_state = get_world_3d().direct_space_state
-
 	var query = PhysicsRayQueryParameters3D.new()
 	query.from = ray_origin
 	query.to = ray_origin + ray_direction * 1000
 	query.collision_mask = 1
-
 	var result = space_state.intersect_ray(query)
-
+	
 	var hovered_tile: Node3D = null
 	if result and result.has("collider"):
 		hovered_tile = result["collider"]
 	
-
-	if hovered_tile != last_hovered_tile and hovered_tile != null:
-		var current_unit = Globals.selected_unit
-		var path = HexPathfinder.get_composite_path(current_unit.inner_tile_position, current_unit._outer_tile_position, hovered_tile.tile_position, Vector2i(0,0))
-		var tile_moveable = false
-		if path.size() < 1:
-			tile_moveable = false
-		else:
-			tile_moveable = true
-		# Hide the last one
-		if last_hovered_tile != null:
-			last_hovered_tile.visible = false
-
-		# Show and color the new one
-		if hovered_tile != null:
-			hovered_tile.visible = true
-			var visual_node = hovered_tile.get_node("hexagon-highlight") # Adjust name if different
-			var visual_mesh = visual_node.get_node("Cylinder_032")
-
-			# Try to get mesh instance and change its material
-			if visual_mesh and visual_mesh is MeshInstance3D:
-				var mesh = visual_mesh as MeshInstance3D
-				var material := mesh.get_surface_override_material(0)
-
-				if material == null:
-					material = StandardMaterial3D.new()
-					mesh.set_surface_override_material(0, material)
-				if tile_moveable:
-					material.albedo_color = Color(1, 1, 1) # White
-				else:
-					material.albedo_color = Color(1, 0, 0)  # Red
-
-		last_hovered_tile = hovered_tile
+	# Only process if we're hovering over a different tile
+	if hovered_tile == last_hovered_tile:
+		return
+	
+	# Set debounce timer BEFORE processing to prevent rapid calls
+	hover_debounce_timer = HOVER_DEBOUNCE_TIME
+	
+	# Hide the previously hovered tile
+	if last_hovered_tile != null:
+		last_hovered_tile.visible = false
+	
+	# Process new hovered tile
+	if hovered_tile != null:
+		# Get path and determine if tile is moveable
+		var path = get_cached_path(
+			Globals.selected_unit.inner_tile_position,
+			Globals.selected_unit._outer_tile_position,
+			hovered_tile.tile_position,
+			Vector2i(0,0)
+		)
+		
+		var tile_moveable = path.size() >= 1
+		
+		# Show and color the hovered tile
+		hovered_tile.visible = true
+		
+		# Use cached mesh reference
+		var visual_mesh = hovered_tile.get_meta("cached_mesh", null)
+		if visual_mesh and visual_mesh is MeshInstance3D:
+			var mesh = visual_mesh as MeshInstance3D
+			if tile_moveable:
+				mesh.set_surface_override_material(0, moveable_material)
+			else:
+				mesh.set_surface_override_material(0, non_moveable_material)
+	
+	# Update last hovered tile
+	last_hovered_tile = hovered_tile

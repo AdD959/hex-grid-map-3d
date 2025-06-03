@@ -112,7 +112,7 @@ func find_closest_reachable_inner_tile(outer_tile: Vector2i, from_inner: Vector2
 	# Sort by closeness to the central tile (usually 0,0)
 	walkable_tiles.sort_custom(func(a, b): return a.distance_squared_to(target_inner) < b.distance_squared_to(target_inner))
 	#print("walkable tiles on %s : %s " % [outer_tile, walkable_tiles])
-	#print(walkable_tiles)
+	print(walkable_tiles)
 	for tile in walkable_tiles:
 		var path = run_astar(from_inner, tile, outer_tile)
 		if path.size() > 0:
