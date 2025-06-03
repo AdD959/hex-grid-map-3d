@@ -10,8 +10,14 @@ const TILE_INNER_GRASS_SCENE = preload("res://tile_stuff/tile_grass/tile_inner_g
 var composite_tile_count = 0
 const TILE_TYPES := ["forest", "grass"]
 const HEXAGON_GRASS_DARK = preload("res://tile_stuff/tile_grass/hexagon-grass-dark/hexagon-grass-dark.tscn")
-const AZTEC_PEASANT = preload("res://aztec-peasant.glb")
 const AZTEC_WARRIOR_GOLD = preload("res://aztec_warrior_gold.tscn")
+const AZTEC_PEASANT = preload("res://aztec_peasant.tscn")
+const GIANT = preload("res://giant.tscn")
+const CLAYHUMAN = preload("res://clayhuman.tscn")
+const PROTOHUMAN = preload("res://protohuman.tscn")
+const QUEZACOATL = preload("res://quezacoatl.tscn")
+const GIANT_2 = preload("res://giant_2.tscn")
+const TREE_2 = preload("res://tile_stuff/trees/tree2/tree_update_1.tscn")
 
 func begin():
 	_instantiate_multimesh_assets()
@@ -27,20 +33,57 @@ func _instantiate_multimesh_assets():
 	add_child(Globals.tree_1_multimesh)
 	
 func _add_unit():
-	var unit = AZTEC_WARRIOR_GOLD.instantiate()
-	unit.name = "unit"
+	#var unit = CLAYHUMAN.instantiate()
+	var unit2 = AZTEC_WARRIOR_GOLD.instantiate()
+	#var unit3 = AZTEC_PEASANT.instantiate()
+	#var unit4 = GIANT.instantiate()
+	#var unit5 = PROTOHUMAN.instantiate()
+	#var unit6 = QUEZACOATL.instantiate()
+	#var unit7 = GIANT_2.instantiate()
+	
+	
+	#unit.name = "unit"
 	
 	var outer_tile = Globals.tile_data_map[Vector2i(0, 0)]
 	var inner_tile = outer_tile.inner_tiles_data_map[Vector2i(0, 0)]
 	
 	# Combine outer tile's world position with inner tile's local offset
-	unit.position = outer_tile.position 
-	unit.inner_tile_position = Vector2i(0, 0)
-	unit.outer_tile_position = Vector2i(0, 0)
-	#+ inner_tile.position
-
-	self.add_child(unit)
-	Globals.selected_unit = unit
+	#unit.position = outer_tile.position 
+	#unit.inner_tile_position = Vector2i(0, 1)
+	#unit.outer_tile_position = Vector2i(0, 0)
+	
+	unit2.position = outer_tile.position 
+	unit2.inner_tile_position = Vector2i(0, 0)
+	unit2.outer_tile_position =  Vector2i(0, 0)
+	#
+	#unit3.position = outer_tile.position 
+	#unit3.inner_tile_position = Vector2i(2, 0)
+	#unit3.outer_tile_position = Vector2i(0, 0)
+	#
+	#unit4.position = outer_tile.position 
+	#unit4.inner_tile_position = Vector2i(0, 0)
+	#unit4.outer_tile_position =  Vector2i(0, 0)
+	#
+	#unit5.position = outer_tile.position 
+	#unit5.inner_tile_position = Vector2i(-1, 1)
+	#unit5.outer_tile_position =  Vector2i(0, 0)
+	#
+	#unit6.position = outer_tile.position 
+	#unit6.inner_tile_position = Vector2i(0, 0)
+	#unit6.outer_tile_position =  Vector2i(0, 1)
+	#
+	#unit7.position = outer_tile.position 
+	#unit7.inner_tile_position = Vector2i(-2, 2)
+	#unit7.outer_tile_position =  Vector2i(0, 0)
+	
+	#self.add_child(unit)
+	self.add_child(unit2)
+	#self.add_child(unit3)
+	#self.add_child(unit4)
+	#self.add_child(unit5)
+	#self.add_child(unit6)
+	#self.add_child(unit7)
+	Globals.selected_unit = unit2
 	
 func _generate_map():
 	var tile_width = 28   # Distance between centers horizontally (flat-top hex)

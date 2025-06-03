@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://obiopr3yt1m8"]
+
+[ext_resource type="PackedScene" uid="uid://ca186ji64pk30" path="res://aztec-peasant.glb" id="1_y35jm"]
+[ext_resource type="Script" uid="uid://c67h06l2mgydr" path="res://aztec_peasant.gd" id="2_w2kvq"]
+
+[node name="aztec-peasant" instance=ExtResource("1_y35jm")]
+script = ExtResource("2_w2kvq")

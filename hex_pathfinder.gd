@@ -1,56 +1,113 @@
-class_name HexPathfinder
 extends Node
 
-var g_score := {}  # Cost from start to tile
-var f_score := {}  # Estimated total cost
+class_name Pathfinder
 
-# Finds the shortest path between start and end in a hex grid
-func find_path(start: Vector2i, end: Vector2i) -> Array:
-	var open_set = [start]  # Tiles to explore
-	var came_from = {}  # Dictionary to track movement history
-	g_score.clear()
-	f_score.clear()
+# Assumes inner_tile_positions defines traversable tiles
+var inner_tile_positions: Array[Vector2i] = [
+	Vector2i(0,0), Vector2i(0,1), Vector2i(0,2), Vector2i(0,3), Vector2i(0,-1), Vector2i(0,-2), Vector2i(0,-3),
+	Vector2i(-1,-2), Vector2i(-1,-1), Vector2i(-1,0), Vector2i(-1,1), Vector2i(-1,2), Vector2i(-1,3),
+	Vector2i(-2,-1), Vector2i(-2,0), Vector2i(-2,1), Vector2i(-2,2), Vector2i(-2,3),
+	Vector2i(-3,0), Vector2i(-3,1), Vector2i(-3,2), Vector2i(-3,3),
+	Vector2i(1,-3), Vector2i(1,-2), Vector2i(1,-1), Vector2i(1,0), Vector2i(2,-3), Vector2i(2,-2),
+	Vector2i(2,-1), Vector2i(2,0), Vector2i(2,1), Vector2i(3,-3), Vector2i(3,-2), Vector2i(3,-1), Vector2i(3, 0),
+]
 
-	g_score[start] = 0
-	f_score[start] = heuristic(start, end)
+# Directions for hex grid neighbors (pointy-top, axial coords)
+const HEX_DIRECTIONS = [
+	Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0),
+	Vector2i(-1, 1), Vector2i(0, 1), Vector2i(1, -1),
+]
 
-	while open_set.size() > 0:
-		open_set.sort_custom(Callable(self, "compare_f_score"))  # Sort by lowest f_score
-		var current = open_set.pop_front()
+const INNER_EDGE_MAP = {
+	"NE": [Vector2i(0, -3), Vector2i(1, -3), Vector2i(2, -3), Vector2i(3, -3)],
+	"E":  [Vector2i(3, -3), Vector2i(3, -2), Vector2i(3, -1), Vector2i(3, 0)],
+	"SE": [Vector2i(3, 0), Vector2i(2, 1), Vector2i(1, 2), Vector2i(0, 3)],
+	"SW": [Vector2i(-3, 3), Vector2i(-2, 3), Vector2i(-1, 3), Vector2i(0, 3)],
+	"W":  [Vector2i(-3, 0), Vector2i(-3, 1), Vector2i(-3, 2), Vector2i(-3, 3)],
+	"NW": [Vector2i(0, -3), Vector2i(-1, -2), Vector2i(-2, -1), Vector2i(-3, 0)]
+}
 
-		if current == end:
-			return reconstruct_path(came_from, current, start)
+func get_composite_path(from_inner: Vector2i, from_outer: Vector2i, to_outer: Vector2i, to_inner: Vector2i) -> Array[Array]:
+	var direction := get_hex_direction(from_outer, to_outer)
+	var entry_points = INNER_EDGE_MAP.get(get_opposite_direction(direction), [])
+	if entry_points.is_empty():
+		push_error("No entry points for direction: " + direction)
+		return []
+	# Just use the first one for now
+	var exit_points = INNER_EDGE_MAP.get(direction, [])
+	
+	var target_entry = entry_points[1]
+	var target_exit = exit_points[1]
+	# Run A* from current inner tile to the entry tile of target composite tile
+	var current_tile_path = run_astar(from_inner, target_exit)
+	var next_tile_path = run_astar(target_entry, to_inner)
+	
+	return [ current_tile_path, next_tile_path ]
 
-		for neighbor in Globals.base_tiles_map.get_surrounding_cells(current):
-			var tentative_g_score = g_score.get(current, INF) + 1  # Each move has a cost of 1
+func run_astar(start: Vector2i, goal: Vector2i) -> Array[Vector2i]:
+	var open_set: Array[Vector2i] = [start]
+	var came_from = {}
+	var g_score = {start: 0}
+	var f_score = {start: start.distance_to(goal)}
 
-			if tentative_g_score < g_score.get(neighbor, INF):
+	while not open_set.is_empty():
+		open_set.sort_custom(func(a, b): return f_score.get(a, INF) < f_score.get(b, INF))
+		var current = open_set[0]
+		if current == goal:
+			return reconstruct_path(came_from, current)
+
+		open_set.remove_at(0)
+		for neighbor in get_neighbors(current):
+			var tentative_g = g_score.get(current, INF) + 1
+			if tentative_g < g_score.get(neighbor, INF):
 				came_from[neighbor] = current
-				g_score[neighbor] = tentative_g_score
-				f_score[neighbor] = tentative_g_score + heuristic(neighbor, end)
+				g_score[neighbor] = tentative_g
+				f_score[neighbor] = tentative_g + neighbor.distance_to(goal)
 				if not neighbor in open_set:
 					open_set.append(neighbor)
 
-	return []  # No path found
+	return []
 
-# Hexagonal distance heuristic
-func heuristic(a: Vector2i, b: Vector2i) -> int:
-	return max(abs(a.x - b.x), abs(a.y - b.y))  # Manhattan heuristic for hex grids
-
-# Compare function for sorting open_set by f_score
-func compare_f_score(a: Vector2i, b: Vector2i) -> bool:
-	return f_score.get(a, INF) < f_score.get(b, INF)
-
-# Reconstructs the path from start to end, excluding the starting tile
-func reconstruct_path(came_from: Dictionary, current: Vector2i, start: Vector2i) -> Array:
-	var path = []
+func reconstruct_path(came_from: Dictionary, current: Vector2i) -> Array[Vector2i]:
+	var path: Array[Vector2i] = [current]
 	while current in came_from:
-		path.append(current)
 		current = came_from[current]
-	path.reverse()
-	
-	# Ensure the starting position is not included
-	if path.size() > 0 and path[0] == start:
-		path.remove_at(0)
-	
+		path.insert(0, current)
 	return path
+
+func get_neighbors(tile: Vector2i) -> Array[Vector2i]:
+	var results: Array[Vector2i] = []
+	for dir in HEX_DIRECTIONS:
+		var neighbor = tile + dir
+		if neighbor in inner_tile_positions:
+			results.append(neighbor)
+	return results
+
+func get_hex_direction(from: Vector2i, to: Vector2i) -> String:
+	var is_even_row = true if from.x % 2 == 0 else false
+	var diff = to - from
+	if is_even_row:
+		match diff:
+			Vector2i(1, -1): return "E"
+			Vector2i(1, 0): return "SE"
+			Vector2i(0, 1): return "SW"
+			Vector2i(-1, 0): return "W"
+			Vector2i(-1, -1): return "NW"
+			Vector2i(0, -1): return "NE"
+			_: return "E" # fallback
+	else:
+		match diff:
+			Vector2i(1, 0): return "E"
+			Vector2i(1, 1): return "SE"
+			Vector2i(0, 1): return "SW"
+			Vector2i(-1, 1): return "W"
+			Vector2i(-1, 0): return "NW"
+			Vector2i(0, -1): return "NE"
+			_: return "E" # fallback
+
+func get_opposite_direction(dir: String) -> String:
+	return {
+		"E": "W", "W": "E",
+		"NE": "SW", "SW": "NE",
+		"NW": "SE", "SE": "NW"
+	}.get(dir, "W")

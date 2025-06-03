@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgnmdpy2fbcik"]
+
+[ext_resource type="PackedScene" uid="uid://6eqo2l1bir5i" path="res://quezacoatl.glb" id="1_ttbnp"]
+[ext_resource type="Script" uid="uid://dki870y4ahul6" path="res://quezacoatl.gd" id="2_p04c0"]
+
+[node name="quezacoatl" instance=ExtResource("1_ttbnp")]
+script = ExtResource("2_p04c0")

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://v0gdws38ayjg"]
+
+[ext_resource type="PackedScene" uid="uid://ch7d6dt0schq1" path="res://protohuman.glb" id="1_drn1k"]
+[ext_resource type="Script" uid="uid://bhe6y3l07uydw" path="res://protohuman.gd" id="2_ock8n"]
+
+[node name="protohuman" instance=ExtResource("1_drn1k")]
+script = ExtResource("2_ock8n")

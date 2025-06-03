@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dr0jtnh8bmlxi"]
+
+[ext_resource type="ArrayMesh" uid="uid://cwxdrrdwgng5y" path="res://tile_stuff/trees/tree2/tree_model.res" id="1_ioxwj"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_pn73y"]
+transform_format = 1
+mesh = ExtResource("1_ioxwj")
+
+[node name="TreeUpdate1" type="MultiMeshInstance3D"]
+multimesh = SubResource("MultiMesh_pn73y")

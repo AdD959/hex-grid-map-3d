@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dswx2chhvyfwb"]
+
+[ext_resource type="PackedScene" uid="uid://cfasae12o8pwp" path="res://aztec-warrior-gold.glb" id="1_rse4y"]
+[ext_resource type="Script" uid="uid://dga3iarlw417" path="res://aztec_warrior_gold.gd" id="2_0pssf"]
+
+[node name="aztec-warrior-gold" instance=ExtResource("1_rse4y")]
+script = ExtResource("2_0pssf")

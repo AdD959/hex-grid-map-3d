@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://clw7owvbsrjhu"]
+
+[ext_resource type="PackedScene" uid="uid://b5vmxjyfk3itp" path="res://clayhuman.glb" id="1_1rckq"]
+[ext_resource type="Script" uid="uid://dx4t0o7m6yvre" path="res://clayhuman.gd" id="2_ms14p"]
+
+[node name="clayhuman" instance=ExtResource("1_1rckq")]
+script = ExtResource("2_ms14p")

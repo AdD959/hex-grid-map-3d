@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu1bnleu433jb"]
+
+[ext_resource type="PackedScene" uid="uid://dxa4hao5pvktl" path="res://giant.glb" id="1_ct8lf"]
+[ext_resource type="Script" uid="uid://qvo4x2hdeq1p" path="res://giant.gd" id="2_wcypl"]
+
+[node name="giant" instance=ExtResource("1_ct8lf")]
+script = ExtResource("2_wcypl")
